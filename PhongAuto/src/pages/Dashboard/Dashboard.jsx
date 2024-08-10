@@ -63,35 +63,6 @@ const Dashboard = () => {
   const [openKeys, setOpenKeys] = useState(dataOpen);
 
   useEffect(() => {
-    if (role === "owner") {
-      setItems([
-        getItem("Type", "category"),
-        getItem("Profile", "profile", <ProfileOutlined />),
-        getItem("Manage Cars", "/dashboard", <HeartOutlined />),
-        getItem("Manage Staffs", "staffs", <UserOutlined />),
-        getItem("Statistics", "statistics", <BarChartOutlined />, [
-          getItem("Club 1", "stats-club-1"),
-          getItem("Club 2", "stats-club-2"),
-          getItem("Club 3", "stats-club-3"),
-          getItem("All Clubs", "all-clubs"),
-        ]),
-      ]);
-    }
-    if (role === "staff") {
-      setItems([
-        getItem("Category", "category"),
-        getItem("Hồ sơ", "profile", <ProfileOutlined />),
-        getItem("Club", "clubs", <HeartOutlined />, [
-          getItem("Time Slot", "time-slot"),
-          getItem("Promotion", "promotion"),
-        ]),
-        getItem("Booking", "booking", <CheckCircleOutlined />, [
-          getItem("Court ID 1", "court-1"),
-          getItem("Court ID 2", "court-2"),
-        ]),
-      ]);
-    }
-
     if (role === "admin") {
       setItems([
         getItem("Type", "type", <SettingOutlined />),
