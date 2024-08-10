@@ -1,0 +1,21 @@
+.table-cars {
+  width: 100% !important;
+}
+
+.label-form-description input {
+  height: 100px;
+}
+
+.ant-form-item-required {
+  width: 200px !important;
+}
+
+.checkbox {
+  margin-left: 35%;
+}
+
+.action-button {
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+}
