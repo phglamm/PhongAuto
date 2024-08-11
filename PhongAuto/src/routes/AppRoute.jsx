@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import { duongdan } from ".";
 import Dashboard from "../pages/Dashboard/Dashboard";
-import Homepage from "../pages/Homepage/Homepage";
 import Detail from "../pages/Detail/Detail";
+import Homepage from "@/pages/Homepage/Homepage";
 
 export default function AppRoute() {
   return (

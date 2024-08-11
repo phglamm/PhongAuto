@@ -3,7 +3,6 @@ import HeaderAntd from "../../components/Header/Header";
 import { Card, Row } from "antd";
 import Meta from "antd/es/card/Meta";
 import { Col, Container } from "react-bootstrap";
-import axios from "axios";
 import api from "../../config/api";
 import "./Homepage.css";
 import { Link } from "react-router-dom";

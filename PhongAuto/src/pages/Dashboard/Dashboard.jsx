@@ -9,6 +9,8 @@ import {
   TeamOutlined,
   AppstoreAddOutlined,
   SettingOutlined,
+  UploadOutlined,
+  PlusOutlined,
 } from "@ant-design/icons";
 import {
   Breadcrumb,
@@ -24,9 +26,10 @@ import {
   Select,
   Table,
   theme,
+  Upload,
 } from "antd";
 import { Footer } from "antd/es/layout/layout";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "antd/es/form/Form";
 import api from "../../config/api";
 import { toast } from "react-toastify";
@@ -45,6 +48,8 @@ import "./Dashboard.css";
 import TextArea from "antd/es/input/TextArea";
 import moment from "moment";
 import dayjs from "dayjs";
+import { duongdan } from "@/routes";
+import uploadFile from "@/utils/upload";
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -123,12 +128,26 @@ const Dashboard = () => {
   function hanldeClickSubmitUpdate() {
     formUpdate.submit();
   }
+
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   async function addCar(value) {
     console.log(value);
+    const imgURLs = fileList.map((file) => file.url); // Collect all uploaded image URLs
+    value.imgURL = imgURLs;
+
     try {
       const response = await api.post("PhongAuto", value);
       console.log(response);
       toast.success("Add Car Successfully");
+      setFileList([]);
       form.resetFields();
       setOpen(false);
       fetchCar();
@@ -201,7 +220,7 @@ const Dashboard = () => {
   const initialDate = selectedCar?.produceDate
     ? dayjs(selectedCar.produceDate)
     : null;
-
+  const navigate = useNavigate();
   const columns = [
     {
       title: "ID",
@@ -271,6 +290,15 @@ const Dashboard = () => {
         return (
           <>
             <div className="action-button">
+              <Button
+                onClick={() => {
+                  navigate(`${duongdan.detail}/${values.id}`);
+                }}
+                className="delete-button"
+              >
+                View
+              </Button>
+
               <Button
                 onClick={(e) => {
                   deleteCar(values);
@@ -460,6 +488,48 @@ const Dashboard = () => {
       },
     },
   ];
+
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [fileList, setFileList] = useState([]);
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+  };
+
+  const handleChange = async ({ fileList: newFileList }) => {
+    const uploadedFiles = await Promise.all(
+      newFileList.map(async (file) => {
+        if (!file.url && !file.preview) {
+          const url = await uploadFile(file.originFileObj); // Upload each file and get its URL
+          return { ...file, url };
+        }
+        return file;
+      })
+    );
+    setFileList(uploadedFiles);
+  };
+  const uploadButton = (
+    <button
+      style={{
+        border: 0,
+        background: "none",
+      }}
+      type="button"
+    >
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </button>
+  );
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
@@ -552,6 +622,35 @@ const Dashboard = () => {
                   ]}
                 >
                   <Input type="text" required />
+                </Form.Item>
+                <Form.Item
+                  className="label-form"
+                  label="Image URL"
+                  name="imgURL"
+                >
+                  <Upload
+                    maxCount={4}
+                    onPreview={handlePreview}
+                    onChange={handleChange}
+                    listType="picture-card"
+                    fileList={fileList}
+                  >
+                    {fileList.length >= 8 ? null : uploadButton}
+                  </Upload>
+                  {previewImage && (
+                    <Image
+                      wrapperStyle={{
+                        display: "none",
+                      }}
+                      preview={{
+                        visible: previewOpen,
+                        onVisibleChange: (visible) => setPreviewOpen(visible),
+                        afterOpenChange: (visible) =>
+                          !visible && setPreviewImage(""),
+                      }}
+                      src={previewImage}
+                    />
+                  )}
                 </Form.Item>
                 <Form.Item
                   className="label-form"
