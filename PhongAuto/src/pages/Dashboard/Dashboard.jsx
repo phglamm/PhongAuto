@@ -47,9 +47,10 @@ function getItem(label, key, icon, children) {
 import "./Dashboard.css";
 import TextArea from "antd/es/input/TextArea";
 import moment from "moment";
-import dayjs from "dayjs";
 import { duongdan } from "@/routes";
 import uploadFile from "@/utils/upload";
+import dayjs from "dayjs";
+import { CloudCog } from "lucide-react";
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -134,7 +135,10 @@ const Dashboard = () => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
+      reader.onerror = (error) => {
+        console.log(error);
+        reject(error);
+      };
     });
   };
 
@@ -142,7 +146,9 @@ const Dashboard = () => {
     console.log(value);
     const imgURLs = fileList.map((file) => file.url); // Collect all uploaded image URLs
     value.imgURL = imgURLs;
-
+    const parseNum = parseInt(value.price);
+    console.log(parseNum);
+    value.price = parseNum;
     try {
       const response = await api.post("PhongAuto", value);
       console.log(response);
@@ -201,11 +207,12 @@ const Dashboard = () => {
   }
 
   async function updateCar(values) {
+    const parseNum = parseInt(newData.price);
+    console.log(parseNum);
     const dataUpdate = {
       ...newData,
-      produceDate: dayjs(newData?.produceDate).format("DD-MM-YYYY"), // Format date if necessary
+      price: parseNum,
     };
-
     try {
       await api.put(`PhongAuto/${values.id}`, dataUpdate);
       setIsModalUpdateOpen(false);
@@ -217,9 +224,11 @@ const Dashboard = () => {
       console.log(error.response.data);
     }
   }
+
   const initialDate = selectedCar?.produceDate
-    ? dayjs(selectedCar.produceDate)
+    ? dayjs(selectedCar?.produceDate, "DD-MM-YYYY")
     : null;
+  console.log(dayjs(initialDate), "DD-MM-YYYY");
   const navigate = useNavigate();
   const columns = [
     {
@@ -314,6 +323,7 @@ const Dashboard = () => {
                   setSelectedCar(values);
                   formUpdate.setFieldsValue(values);
                   setIsModalUpdateOpen(true);
+                  console.log(values);
                 }}
               >
                 Update
@@ -422,7 +432,17 @@ const Dashboard = () => {
                     },
                   ]}
                 >
-                 
+                  <DatePicker
+                    className="label-form"
+                    placeholder="Choose Date"
+                    format={dateformat}
+                    disabledDate={(current) => {
+                      let customDate = dayjs().format("DD-MM-YYYY");
+                      return (
+                        current && current > dayjs(customDate, "DD-MM-YYYY")
+                      );
+                    }}
+                  />
                 </Form.Item> */}
                 <Form.Item
                   className="label-form"
@@ -492,10 +512,13 @@ const Dashboard = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState([]);
-  const handlePreview = async (file) => {
+  const handlePreview = (file) => {
+    console.log(file);
     if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
+      file.preview = getBase64(file.originFileObj);
     }
+    console.log(file.preview);
+    console.log(file.url);
     setPreviewImage(file.url || file.preview);
     setPreviewOpen(true);
   };
@@ -511,6 +534,7 @@ const Dashboard = () => {
       })
     );
     setFileList(uploadedFiles);
+    toast.success("Upload Successfully");
   };
   const uploadButton = (
     <button
@@ -593,9 +617,10 @@ const Dashboard = () => {
             }}
           >
             <Outlet style={{ flexGrow: 1 }} />
-            <Button type="primary" onClick={showModal} style={{ width: "10%" }}>
+            <Button type="primary" onClick={showModal} style={{ width: "15%" }}>
               Add Car into Automotive
             </Button>
+
             <Modal
               title="Add Car"
               open={open}
@@ -629,6 +654,8 @@ const Dashboard = () => {
                   name="imgURL"
                 >
                   <Upload
+                    className="label-form-image"
+                    action="https://66933fa0c6be000fa07a5685.mockapi.io"
                     maxCount={4}
                     onPreview={handlePreview}
                     onChange={handleChange}

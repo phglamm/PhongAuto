@@ -20,3 +20,29 @@
 a {
   text-decoration: none !important;
 }
+
+.ant-carousel img {
+  width: 100% !important;
+}
+.ant-carousel {
+  width: 100% !important;
+}
+.beforecarousel {
+  width: 100%;
+}
+.banner-slide {
+  width: 100% !important;
+  height: 1000px !important;
+}
+
+.banner-img {
+  width: 100% !important;
+  height: 100% !important;
+}
+.beforecarousel {
+  /* margin-top: 50px; */
+}
+
+img {
+  max-width: none !important;
+}

@@ -13,6 +13,20 @@
 .checkbox {
   margin-left: 35%;
 }
+.label-form-image {
+  margin-left: 31%;
+}
+.ant-upload-list-item-error {
+  border-color: rgba(160, 146, 251, 0.829) !important;
+}
+
+/* .ant-upload-list-item-error:hover {
+  display: none !important;
+} */
+
+.ant-tooltip {
+  display: none !important;
+}
 
 .action-button {
   display: flex;

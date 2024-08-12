@@ -16,10 +16,9 @@ const items = [
     icon: <MailOutlined />,
   },
   {
-    label: "Navigation Two",
-    key: "app",
+    label: <Link to={duongdan.profile}>Profile</Link>,
+    key: "profile",
     icon: <AppstoreOutlined />,
-    disabled: true,
   },
   {
     label: "Navigation Three - Submenu",
@@ -62,6 +61,25 @@ const items = [
     icon: <SettingOutlined />,
   },
 ];
+
+const items2 = [
+  {
+    label: <Link to={duongdan.profile}>Profile</Link>,
+    key: "profile",
+    icon: <AppstoreOutlined />,
+  },
+  {
+    label: <Link to={duongdan.login}>Login</Link>,
+    key: "Login",
+    icon: <SettingOutlined />,
+  },
+  {
+    label: <Link to={duongdan.login}>Sign Up</Link>,
+    key: "Signup",
+    icon: <SettingOutlined />,
+  },
+];
+
 const HeaderAntd = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -85,6 +103,18 @@ const HeaderAntd = () => {
         mode="horizontal"
         defaultSelectedKeys={["2"]}
         items={items}
+        style={{
+          flex: 1,
+          minWidth: 0,
+        }}
+      />
+
+      <Menu
+        className="header-menu-2"
+        theme="dark"
+        mode="horizontal"
+        defaultSelectedKeys={["2"]}
+        items={items2}
         style={{
           flex: 1,
           minWidth: 0,

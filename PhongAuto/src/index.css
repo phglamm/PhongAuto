@@ -67,3 +67,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+.container-fluid {
+  margin: 0 !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
