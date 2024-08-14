@@ -1,4 +1,4 @@
-import { Layout, Menu, theme } from "antd";
+import { Layout, Menu } from "antd";
 import "./Header.css";
 import {
   AppstoreOutlined,
@@ -7,120 +7,214 @@ import {
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { duongdan } from "../../routes";
-import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import png1 from "../../../public/1-1.png";
+import { logout, selectUser } from "../../redux/features/counterSlice";
+import { clearOrder } from "../../redux/features/orderSlice";
 const { Header } = Layout;
-const items = [
-  {
-    label: <Link to={duongdan.home}>Homepage</Link>,
-    key: "home",
-    icon: <MailOutlined />,
-  },
-  {
-    label: <Link to={duongdan.profile}>Profile</Link>,
-    key: "profile",
-    icon: <AppstoreOutlined />,
-  },
-  {
-    label: "Navigation Three - Submenu",
-    key: "SubMenu",
-    icon: <SettingOutlined />,
-    children: [
-      {
-        type: "group",
-        label: "Item 1",
-        children: [
-          {
-            label: "Option 1",
-            key: "setting:1",
-          },
-          {
-            label: "Option 2",
-            key: "setting:2",
-          },
-        ],
-      },
-      {
-        type: "group",
-        label: "Item 2",
-        children: [
-          {
-            label: "Option 3",
-            key: "setting:3",
-          },
-          {
-            label: "Option 4",
-            key: "setting:4",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    key: "Dashboard",
-    label: <Link to={duongdan.dashboard}>Dashboard</Link>,
-    icon: <SettingOutlined />,
-  },
-];
-
-const items2 = [
-  {
-    label: <Link to={duongdan.profile}>Profile</Link>,
-    key: "profile",
-    icon: <AppstoreOutlined />,
-  },
-  {
-    label: <Link to={duongdan.login}>Login</Link>,
-    key: "Login",
-    icon: <SettingOutlined />,
-  },
-  {
-    label: <Link to={duongdan.login}>Sign Up</Link>,
-    key: "Signup",
-    icon: <SettingOutlined />,
-  },
-];
 
 const HeaderAntd = () => {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
-  return (
-    <Header
-      className="header"
-      style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 1,
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
-      <div className="demo-logo"></div>
-      <Menu
-        className="header-menu"
-        theme="dark"
-        mode="horizontal"
-        defaultSelectedKeys={["2"]}
-        items={items}
-        style={{
-          flex: 1,
-          minWidth: 0,
-        }}
-      />
+  const user = useSelector(selectUser);
 
-      <Menu
-        className="header-menu-2"
-        theme="dark"
-        mode="horizontal"
-        defaultSelectedKeys={["2"]}
-        items={items2}
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    dispatch(logout());
+    dispatch(clearOrder());
+  };
+  const items = [
+    {
+      label: <Link to={duongdan.home}>Homepage</Link>,
+      key: "home",
+      icon: <MailOutlined />,
+    },
+    {
+      label: "Models",
+      key: "SubMenu",
+      icon: <SettingOutlined />,
+      children: [
+        {
+          type: "group",
+          label: "Supercars",
+          children: [
+            {
+              label: "Lamborghini",
+              key: "Lamborghini",
+            },
+            {
+              label: "Ferrari",
+              key: "Ferrari",
+            },
+          ],
+        },
+        {
+          type: "group",
+          label: "JDM Sport Cars",
+          children: [
+            {
+              label: "Nissan",
+              key: "Nissan",
+            },
+            {
+              label: "Subaru",
+              key: "Subaru",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      key: "Dashboard",
+      label: (
+        <>
+          {user ? (
+            <>
+              {" "}
+              {user.role === "ADMIN" && (
+                <>
+                  <Link to={duongdan.dashboard}>Dashboard</Link>
+                </>
+              )}
+            </>
+          ) : (
+            <></>
+          )}
+        </>
+      ),
+      icon: (
+        <>
+          {user ? (
+            <>
+              {" "}
+              {user.role === "ADMIN" && (
+                <>
+                  <SettingOutlined />{" "}
+                </>
+              )}
+            </>
+          ) : (
+            <></>
+          )}
+        </>
+      ),
+    },
+    {
+      label: (
+        <>
+          {user ? (
+            <>
+              <Link to={duongdan.profile}> {user.username} Profile</Link>
+            </>
+          ) : (
+            <></>
+          )}
+        </>
+      ),
+      key: "profile",
+
+      icon: (
+        <>
+          {user ? (
+            <>
+              <AppstoreOutlined />
+            </>
+          ) : (
+            <></>
+          )}
+        </>
+      ),
+    },
+    {
+      label: (
+        <>
+          {user ? (
+            <>
+              <Link to={duongdan.login} onClick={handleLogout}>
+                Sign Out
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to={duongdan.login}>Login</Link>
+            </>
+          )}
+        </>
+      ),
+      key: "Login",
+      icon: <SettingOutlined />,
+    },
+    {
+      label: (
+        <>
+          {!user ? (
+            <>
+              <Link to={duongdan.register}>Register</Link>
+            </>
+          ) : (
+            <></>
+          )}
+        </>
+      ),
+      key: "Signup",
+      icon: (
+        <>
+          {!user ? (
+            <>
+              <SettingOutlined />
+            </>
+          ) : (
+            <></>
+          )}
+        </>
+      ),
+    },
+  ];
+
+  return (
+    <div className="header-main">
+      {" "}
+      <div className="demo-logo">
+        <Link to={duongdan.home}>
+          {" "}
+          <img src={png1} alt="" />
+        </Link>
+      </div>
+      <Header
+        className="header"
         style={{
-          flex: 1,
-          minWidth: 0,
+          position: "sticky",
+          top: 0,
+          zIndex: 1,
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
         }}
-      />
-    </Header>
+      >
+        <Menu
+          className="header-menu"
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={["2"]}
+          items={items}
+          style={{
+            flex: 1,
+            minWidth: 0,
+          }}
+        />
+
+        {/* <Menu
+          className="header-menu-2"
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={["2"]}
+          items={items2}
+          style={{
+            flex: 1,
+            minWidth: 0,
+          }}
+        /> */}
+      </Header>
+    </div>
   );
 };
 export default HeaderAntd;

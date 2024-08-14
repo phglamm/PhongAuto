@@ -1,14 +1,15 @@
-import React from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import HeaderAntd from "@/components/Header/Header";
-import api from "@/config/api";
-import { duongdan } from "@/routes";
-import { useNavigate } from "react-router-dom";
+import HeaderAntd from "../../components/Header/Header";
+import api from "../../config/api";
+import { duongdan } from "../../routes";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { login } from "@/redux/features/counterSlice";
-
+import { login } from "../../redux/features/counterSlice";
+import "./LoginPage.css";
+import { Container } from "react-bootstrap";
+import Title from "antd/es/typography/Title";
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -44,50 +45,59 @@ const LoginPage = () => {
   return (
     <>
       <HeaderAntd></HeaderAntd>
-      <Form
-        name="login_form"
-        className="login-form"
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-      >
-        <Form.Item
-          name="username"
-          rules={[{ required: true, message: "Please input your Username!" }]}
+      <Container className="card-login-form">
+        {" "}
+        <Form
+          name="login_form"
+          className="login-form"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
         >
-          <Input prefix={<UserOutlined />} placeholder="Username" />
-        </Form.Item>
-
-        <Form.Item
-          name="password"
-          rules={[{ required: true, message: "Please input your Password!" }]}
-        >
-          <Input
-            prefix={<LockOutlined />}
-            type="password"
-            placeholder="Password"
-          />
-        </Form.Item>
-
-        <Form.Item>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
+          <Title level={3} className="title-form">
+            Login
+          </Title>
+          <Form.Item
+            name="username"
+            rules={[{ required: true, message: "Please input your Username!" }]}
+          >
+            <Input
+              prefix={<UserOutlined />}
+              placeholder="Username"
+              type="text"
+            />
           </Form.Item>
 
-          <a className="login-form-forgot" href="#">
-            Forgot password
-          </a>
-        </Form.Item>
-
-        <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="login-form-button"
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "Please input your Password!" }]}
           >
-            Log in
-          </Button>
-        </Form.Item>
-      </Form>
+            <Input
+              prefix={<LockOutlined />}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Item>
+
+          <Form.Item className="form-end">
+            <Link className="login-form-register" to={duongdan.register}>
+              Register
+            </Link>
+            <Link className="login-form-forgot" to={duongdan.forgot}>
+              Forgot password
+            </Link>
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
+              Log in
+            </Button>
+          </Form.Item>
+        </Form>
+      </Container>
     </>
   );
 };

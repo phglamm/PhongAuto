@@ -32,7 +32,7 @@ a {
 }
 .banner-slide {
   width: 100% !important;
-  height: 1000px !important;
+  height: 1150px !important;
 }
 
 .banner-img {
@@ -46,3 +46,99 @@ a {
 img {
   max-width: none !important;
 }
+
+.contact-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5%;
+  background-color: #212225;
+  padding: 1%;
+}
+
+.contact-bar-compo a {
+  color: white;
+  font-size: larger;
+  font-weight: 600;
+}
+
+.contact-bar-compo {
+  padding: 10px 20px;
+}
+.contact-bar-compo:hover {
+  color: white;
+  background-color: #9495982e;
+}
+
+.cars-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: none;
+}
+
+.cars-row {
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  justify-content: center;
+  margin: 0 10px;
+}
+
+.cars-pagination-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.cars-pagination-button.left {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  margin-right: 10px;
+}
+
+.cars-pagination-button.right {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  margin-left: 10px;
+}
+
+.home-car {
+  text-align: start;
+  font-size: 35px;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.carousel-for-cars {
+  width: 100%;
+}
+
+.img-for-cars {
+  width: 100%;
+  height: 650px;
+}
+
+.carousel-item {
+  position: relative;
+}
+
+.carousel-text {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+}
+
+/* .cars-item {
+  width: 100%;
+} */

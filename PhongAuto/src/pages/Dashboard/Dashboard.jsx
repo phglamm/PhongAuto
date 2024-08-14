@@ -47,10 +47,9 @@ function getItem(label, key, icon, children) {
 import "./Dashboard.css";
 import TextArea from "antd/es/input/TextArea";
 import moment from "moment";
-import { duongdan } from "@/routes";
-import uploadFile from "@/utils/upload";
+import uploadFile from "../../utils/upload";
 import dayjs from "dayjs";
-import { CloudCog } from "lucide-react";
+import { duongdan } from "../../routes";
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -73,8 +72,8 @@ const Dashboard = () => {
       setItems([
         getItem("Type", "type", <SettingOutlined />),
         getItem("Profile", "profile", <ProfileOutlined />),
-        getItem("Manage Cars", "/dashboard", <HeartOutlined />),
-        getItem("Manage Accounts", "accounts", <TeamOutlined />),
+        getItem("Manage Cars", "dashboard", <HeartOutlined />),
+        getItem("Manage Accounts", "dashboard/accounts", <TeamOutlined />),
         getItem("Statistics", "statistics", <BarChartOutlined />, [
           getItem("Club 1", "stats-club-1"),
           getItem("Club 2", "stats-club-2"),
@@ -243,7 +242,11 @@ const Dashboard = () => {
       dataIndex: "imgURL",
       key: "imgURL",
       render: (value) => (
-        <Image src={value[0]} alt="value" style={{ width: 200 }} />
+        <Image
+          src={value[0]}
+          alt="value"
+          style={{ width: 200, height: " 120px" }}
+        />
       ),
     },
     {

@@ -1,0 +1,6 @@
+.form-register {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  gap: 5%;
+}

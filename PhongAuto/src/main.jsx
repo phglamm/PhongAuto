@@ -10,11 +10,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
 import { persistor, store } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
+import App from "./App";
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <AppRoute />
+        <App />
         <ToastContainer />
       </PersistGate>
     </Provider>
