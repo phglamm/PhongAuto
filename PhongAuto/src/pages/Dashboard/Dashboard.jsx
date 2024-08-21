@@ -160,6 +160,40 @@ const Dashboard = () => {
       console.log(error.response.data);
     }
   }
+
+  async function updateCar(values) {
+    const parseNum = parseInt(newData.price);
+    console.log(parseNum);
+    let dataUpdate;
+    console.log(fileList2);
+    if (fileList2) {
+      const imgURLUpdate = fileList2.map((file) => file.url); // Collect all uploaded image URLs
+      values.imgURL = imgURLUpdate;
+
+      dataUpdate = {
+        ...newData,
+        price: parseNum,
+        imgURL: imgURLUpdate,
+      };
+    } else {
+      dataUpdate = {
+        ...newData,
+        price: parseNum,
+      };
+    }
+    console.log(dataUpdate);
+    try {
+      await api.put(`PhongAuto/${values.id}`, dataUpdate);
+      setIsModalUpdateOpen(false);
+      toast.success("Update Successfully");
+      fetchCar();
+      setFileList2([]);
+      formUpdate.resetFields();
+    } catch (error) {
+      toast.error("Update error");
+      console.log(error.response.data);
+    }
+  }
   const [cars, setCars] = useState([]);
   async function fetchCar() {
     try {
@@ -201,25 +235,6 @@ const Dashboard = () => {
       fetchCar();
     } catch (error) {
       toast.error("Delete Error");
-      console.log(error.response.data);
-    }
-  }
-
-  async function updateCar(values) {
-    const parseNum = parseInt(newData.price);
-    console.log(parseNum);
-    const dataUpdate = {
-      ...newData,
-      price: parseNum,
-    };
-    try {
-      await api.put(`PhongAuto/${values.id}`, dataUpdate);
-      setIsModalUpdateOpen(false);
-      toast.success("Update Successfully");
-      fetchCar();
-      formUpdate.resetFields();
-    } catch (error) {
-      toast.error("Update error");
       console.log(error.response.data);
     }
   }
@@ -288,7 +303,7 @@ const Dashboard = () => {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      render: (value) => value.toLocaleString() + " $",
+      render: (value) => value?.toLocaleString() + " $",
     },
     {
       title: "Special",
@@ -369,6 +384,37 @@ const Dashboard = () => {
                   ]}
                 >
                   <Input type="text" required />
+                </Form.Item>
+                <Form.Item
+                  className="label-form"
+                  label="Image URL"
+                  name="imgURL"
+                >
+                  <Upload
+                    className="label-form-image"
+                    action="https://66933fa0c6be000fa07a5685.mockapi.io"
+                    maxCount={4}
+                    onPreview={handlePreview2}
+                    onChange={handleChange2}
+                    listType="picture-card"
+                    fileList={fileList2}
+                  >
+                    {fileList2.length >= 8 ? null : uploadButton}
+                  </Upload>
+                  {previewImage2 && (
+                    <Image
+                      wrapperStyle={{
+                        display: "none",
+                      }}
+                      preview={{
+                        visible: previewOpen2,
+                        onVisibleChange: (visible) => setPreviewOpen2(visible),
+                        afterOpenChange: (visible) =>
+                          !visible && setPreviewImage2(""),
+                      }}
+                      src={previewImage2}
+                    />
+                  )}
                 </Form.Item>
                 <Form.Item
                   className="label-form"
@@ -537,6 +583,34 @@ const Dashboard = () => {
       })
     );
     setFileList(uploadedFiles);
+    toast.success("Upload Successfully");
+  };
+
+  const [previewOpen2, setPreviewOpen2] = useState(false);
+  const [previewImage2, setPreviewImage2] = useState("");
+  const [fileList2, setFileList2] = useState([]);
+  const handlePreview2 = (file) => {
+    console.log(file);
+    if (!file.url && !file.preview) {
+      file.preview = getBase64(file.originFileObj);
+    }
+    console.log(file.preview);
+    console.log(file.url);
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+  };
+
+  const handleChange2 = async ({ fileList: newFileList }) => {
+    const uploadedFiles = await Promise.all(
+      newFileList.map(async (file) => {
+        if (!file.url && !file.preview) {
+          const url = await uploadFile(file.originFileObj); // Upload each file and get its URL
+          return { ...file, url };
+        }
+        return file;
+      })
+    );
+    setFileList2(uploadedFiles);
     toast.success("Upload Successfully");
   };
   const uploadButton = (

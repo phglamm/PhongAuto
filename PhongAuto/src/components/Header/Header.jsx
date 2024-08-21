@@ -2,13 +2,18 @@ import { Layout, Menu } from "antd";
 import "./Header.css";
 import {
   AppstoreOutlined,
+  CalendarOutlined,
+  InfoOutlined,
   MailOutlined,
   SettingOutlined,
+  ShoppingCartOutlined,
+  SmileOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { duongdan } from "../../routes";
 import { useDispatch, useSelector } from "react-redux";
-import png1 from "../../../public/1-1.png";
+import png1 from "/1-1.png";
 import { logout, selectUser } from "../../redux/features/counterSlice";
 import { clearOrder } from "../../redux/features/orderSlice";
 const { Header } = Layout;
@@ -29,39 +34,20 @@ const HeaderAntd = () => {
       icon: <MailOutlined />,
     },
     {
-      label: "Models",
-      key: "SubMenu",
-      icon: <SettingOutlined />,
-      children: [
-        {
-          type: "group",
-          label: "Supercars",
-          children: [
-            {
-              label: "Lamborghini",
-              key: "Lamborghini",
-            },
-            {
-              label: "Ferrari",
-              key: "Ferrari",
-            },
-          ],
-        },
-        {
-          type: "group",
-          label: "JDM Sport Cars",
-          children: [
-            {
-              label: "Nissan",
-              key: "Nissan",
-            },
-            {
-              label: "Subaru",
-              key: "Subaru",
-            },
-          ],
-        },
-      ],
+      label: <Link to={duongdan.home}>About Us</Link>,
+      key: "aboutus",
+      icon: <MailOutlined />,
+    },
+
+    {
+      label: <Link to={duongdan.home}>Services</Link>,
+      key: "services",
+      icon: <MailOutlined />,
+    },
+    {
+      label: <Link to={duongdan.home}>Contacts</Link>,
+      key: "contact",
+      icon: <MailOutlined />,
     },
     {
       key: "Dashboard",
@@ -98,31 +84,71 @@ const HeaderAntd = () => {
         </>
       ),
     },
-    {
-      label: (
-        <>
-          {user ? (
-            <>
-              <Link to={duongdan.profile}> {user.username} Profile</Link>
-            </>
-          ) : (
-            <></>
-          )}
-        </>
-      ),
-      key: "profile",
 
-      icon: (
-        <>
-          {user ? (
+    {
+      label: "Models",
+      key: "SubMenu",
+      icon: <SettingOutlined />,
+      children: [
+        {
+          type: "group",
+          label: "Supercars",
+          children: [
+            {
+              label: "Lamborghini",
+              key: "Lamborghini",
+            },
+            {
+              label: "Ferrari",
+              key: "Ferrari",
+            },
+          ],
+        },
+        {
+          type: "group",
+          label: "JDM Sport Cars",
+          children: [
+            {
+              label: "Nissan",
+              key: "Nissan",
+            },
+            {
+              label: "Subaru",
+              key: "Subaru",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      label: <>{user ? <>{user.username}</> : <></>}</>,
+      key: "profile",
+      icon: <>{user ? <UserOutlined /> : <></>}</>,
+
+      children: [
+        {
+          label: (
+            <>{user ? <Link to={duongdan.profile}>Profile</Link> : <></>}</>
+          ),
+          icon: <>{user ? <SmileOutlined /> : <></>}</>,
+        },
+        {
+          label: <>{user ? <Link to={duongdan.cart}>Cart</Link> : <></>}</>,
+          icon: <>{user ? <ShoppingCartOutlined /> : <></>}</>,
+        },
+        {
+          label: (
             <>
-              <AppstoreOutlined />
+              {user ? (
+                <Link to={duongdan.orderHistory}>Order History</Link>
+              ) : (
+                <></>
+              )}
             </>
-          ) : (
-            <></>
-          )}
-        </>
-      ),
+          ),
+          icon: <>{user ? <CalendarOutlined /> : <></>}</>,
+        },
+      ],
     },
     {
       label: (
@@ -143,6 +169,7 @@ const HeaderAntd = () => {
       key: "Login",
       icon: <SettingOutlined />,
     },
+
     {
       label: (
         <>

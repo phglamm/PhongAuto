@@ -1,0 +1,11 @@
+.Footer {
+  background-color: #191f22;
+  color: white;
+  padding: 4%;
+  margin-top: 5%;
+}
+
+.Footer-content > a {
+  text-decoration: underline !important;
+  color: white;
+}

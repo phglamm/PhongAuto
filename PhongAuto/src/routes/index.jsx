@@ -7,4 +7,8 @@ export const duongdan = {
   profile: "/profile",
   notfound: "/notfound",
   register: "/register",
+  cart: "/cart",
+  checkout: "/checkout",
+  tracking: "/tracking",
+  orderHistory: "/order-history",
 };

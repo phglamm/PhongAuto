@@ -29,7 +29,7 @@ const LoginPage = () => {
         navigate(duongdan.home);
       } else if (user.role === "MANAGER") {
         navigate(duongdan.home);
-      } else if (user.role === "SALES") {
+      } else if (user.role === "STAFF") {
         navigate(duongdan.home);
       } else if (user.role === "DELIVERY") {
         navigate(duongdan.home);
@@ -44,7 +44,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <HeaderAntd></HeaderAntd>
+      <HeaderAntd />
       <Container className="card-login-form">
         {" "}
         <Form

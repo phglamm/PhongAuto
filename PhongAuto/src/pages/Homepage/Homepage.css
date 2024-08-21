@@ -32,7 +32,7 @@ a {
 }
 .banner-slide {
   width: 100% !important;
-  height: 1150px !important;
+  height: 850px !important;
 }
 
 .banner-img {
@@ -139,6 +139,12 @@ img {
   text-align: center;
 }
 
-/* .cars-item {
-  width: 100%;
-} */
+.cars-item {
+  border: 12px solid black !important;
+  border-radius: 15px;
+}
+
+.carousel-item > img:after {
+  border: 5px solid black !important;
+  border-radius: 15px;
+}

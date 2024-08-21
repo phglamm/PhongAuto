@@ -7,6 +7,11 @@
 /* .new-amsterdam-regular {
 } */
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body,
 html {
   font-family: "Archivo Black", sans-serif !important;

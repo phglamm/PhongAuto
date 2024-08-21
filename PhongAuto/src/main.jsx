@@ -1,6 +1,5 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import AppRoute from "./routes/AppRoute.jsx";
 import { BrowserRouter } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
@@ -16,7 +15,7 @@ createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <App />
-        <ToastContainer />
+        <ToastContainer newestOnTop autoClose={3000} pauseOnHover={false} />
       </PersistGate>
     </Provider>
   </BrowserRouter>

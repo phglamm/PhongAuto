@@ -7,6 +7,8 @@ import "./Homepage.css";
 import { Link } from "react-router-dom";
 import { duongdan } from "../../routes";
 import { LeftOutlined, PhoneOutlined, RightOutlined } from "@ant-design/icons";
+import EventCard from "../../components/eventCard/eventCard";
+import Footer from "../../components/Footer/Footer";
 
 export default function Homepage() {
   const [cars, setCars] = useState([]);
@@ -53,7 +55,7 @@ export default function Homepage() {
           >
             <div className="banner-slide">
               <img
-                src="https://www.supercars.net/blog/wp-content/uploads/2020/09/wallpaperflare.com_wallpaper-1-1.jpg"
+                src="./BannerPhongAuto.png"
                 className="banner-img"
                 alt="car-slide-1"
               />
@@ -113,20 +115,6 @@ export default function Homepage() {
               {carsToDisplay.map((car) => (
                 <Col key={car.id} className="cars-item" xs={12}>
                   <Link to={`${duongdan.detail}/${car.id}`} key={car.id}>
-                    {/* <Card
-                      key={car.id}
-                      hoverable
-                      style={{ width: 350, height: "450px" }}
-                      cover={<img alt="car-image" src={car?.imgURL[0]} />}
-                    >
-                      <Meta
-                        className="card-content"
-                        title={car.name}
-                        description={car.description}
-                      />
-                      cars-row
-                    </Card> */}
-
                     <Carousel
                       effect="scrollx"
                       dotPosition="bottom"
@@ -162,7 +150,11 @@ export default function Homepage() {
         ) : (
           <p style={{ fontWeight: "bold" }}>No products available.</p>
         )}
+
+        <h5 className="home-car">News & Event</h5>
+        <EventCard />
       </Container>
+      <Footer />
     </>
   );
 }

@@ -7,3 +7,7 @@
 
 .ant-form-item-label {
 }
+
+.ant-avatar {
+  border: 5px solid black;
+}

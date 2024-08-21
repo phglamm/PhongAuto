@@ -511,18 +511,18 @@ export default function ProfilePage() {
         >
           <Avatar
             size={300}
-            src={user.avatarURL[0]}
+            src={user?.avatarURL[0]}
             style={{ marginBottom: "20px" }}
           />
-          <h2>{user.fullname}</h2>
+          <h2>{user?.fullname}</h2>
           <Descriptions column={1} bordered>
             <Descriptions.Item label="Username">
-              {user.username}
+              {user?.username}
             </Descriptions.Item>
-            <Descriptions.Item label="Email">{user.email}</Descriptions.Item>
-            <Descriptions.Item label="Phone">{user.phone}</Descriptions.Item>
+            <Descriptions.Item label="Email">{user?.email}</Descriptions.Item>
+            <Descriptions.Item label="Phone">{user?.phone}</Descriptions.Item>
             <Descriptions.Item label="Address">
-              {user.address}
+              {user?.address}
             </Descriptions.Item>
           </Descriptions>
         </Card>

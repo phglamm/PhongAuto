@@ -9,6 +9,9 @@ import NotFound from "../pages/NotFound/NotFound";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Accounts from "../pages/Dashboard/Accounts/Accounts";
+import CartPage from "../pages/CartPage";
+import Checkout from "../pages/Checkout";
+import OrderHistoryPage from "../pages/OrderHistoryPage";
 
 export default function AppRoute() {
   return (
@@ -38,8 +41,34 @@ export default function AppRoute() {
         <Route
           path={duongdan.profile}
           element={
-            <ProtectedRoute roles={["CUSTOMER", "ADMIN"]}>
+            <ProtectedRoute roles={["CUSTOMER", "ADMIN", "STAFF"]}>
               <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path={duongdan.cart} element={<CartPage />} />
+
+        <Route
+          path={duongdan.checkout}
+          element={
+            <ProtectedRoute roles={["CUSTOMER"]}>
+              <Checkout />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={duongdan.orderHistory}
+          element={
+            <ProtectedRoute roles={["CUSTOMER"]}>
+              <OrderHistoryPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={`${duongdan.tracking}/:id`}
+          element={
+            <ProtectedRoute roles={["CUSTOMER"]}>
+              <Checkout />
             </ProtectedRoute>
           }
         />

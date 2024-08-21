@@ -5,6 +5,10 @@ import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import ReactImageGallery from "react-image-gallery";
 import "./Detail.css";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/features/cartSlice";
+import { Button } from "antd";
+import { toast } from "react-toastify";
 export default function Detail() {
   const [car, setCar] = useState(null);
   const [imageCar, setImageCar] = useState([]);
@@ -29,6 +33,13 @@ export default function Detail() {
     original: url,
     thumbnail: url,
   }));
+
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (product) => {
+    toast.success("Add to cart");
+    dispatch(addToCart(product));
+  };
   return (
     <>
       <HeaderAntd />
@@ -43,9 +54,12 @@ export default function Detail() {
               <p>Type: {car?.type}</p>
               <p>Color: {car?.color}</p>
               <h5 style={{ color: "red" }}>
-                Price: {car?.price.toLocaleString() + "$"}
+                Price: {car?.price?.toLocaleString() + " $"}
               </h5>
               <p>{car?.description}</p>
+            </div>
+            <div>
+              <Button onClick={() => handleAddToCart(car)}>Add to Cart</Button>
             </div>
           </Col>
         </Row>
