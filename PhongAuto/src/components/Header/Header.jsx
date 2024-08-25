@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import png1 from "/1-1.png";
 import { logout, selectUser } from "../../redux/features/counterSlice";
 import { clearOrder } from "../../redux/features/orderSlice";
+import { clearCart } from "../../redux/features/cartSlice";
 const { Header } = Layout;
 
 const HeaderAntd = () => {
@@ -25,6 +26,7 @@ const HeaderAntd = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     dispatch(logout());
+    dispatch(clearCart());
     dispatch(clearOrder());
   };
   const items = [
@@ -38,7 +40,6 @@ const HeaderAntd = () => {
       key: "aboutus",
       icon: <MailOutlined />,
     },
-
     {
       label: <Link to={duongdan.home}>Services</Link>,
       key: "services",
@@ -84,7 +85,6 @@ const HeaderAntd = () => {
         </>
       ),
     },
-
     {
       label: "Models",
       key: "SubMenu",

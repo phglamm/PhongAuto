@@ -27,11 +27,9 @@ const LoginPage = () => {
         navigate(duongdan.dashboard);
       } else if (user.role === "CUSTOMER") {
         navigate(duongdan.home);
-      } else if (user.role === "MANAGER") {
+      } else if (user.role === "SHIPPER") {
         navigate(duongdan.home);
       } else if (user.role === "STAFF") {
-        navigate(duongdan.home);
-      } else if (user.role === "DELIVERY") {
         navigate(duongdan.home);
       }
       toast.success("Login Successfully");

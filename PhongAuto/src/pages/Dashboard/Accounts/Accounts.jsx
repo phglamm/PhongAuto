@@ -31,68 +31,16 @@ import { toast } from "react-toastify";
 
 const { Header, Content, Sider } = Layout;
 
-function getItem(label, key, icon, children) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  };
-}
 import "./Accounts.css";
 import TextArea from "antd/es/input/TextArea";
 import moment from "moment";
 import { duongdan } from "../../../routes";
 import api from "../../../config/api";
+import Sidebar from "../../../components/Sidebar";
 const Accounts = () => {
-  const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-
-  const [items, setItems] = useState([]);
-  const [key, setKey] = useState();
-  const location = useLocation();
-  const currentURI =
-    location.pathname.split("/")[location.pathname.split("/").length - 1];
-  const role = "admin";
-
-  const dataOpen = JSON.parse(localStorage.getItem("keys")) ?? [];
-
-  const [openKeys, setOpenKeys] = useState(dataOpen);
-
-  useEffect(() => {
-    if (role === "admin") {
-      setItems([
-        getItem("Type", "type", <SettingOutlined />),
-        getItem("Profile", "profile", <ProfileOutlined />),
-        getItem("Manage Cars", "dashboard", <HeartOutlined />),
-        getItem("Manage Accounts", "dashboard/accounts", <TeamOutlined />),
-        getItem("Statistics", "statistics", <BarChartOutlined />, [
-          getItem("Club 1", "stats-club-1"),
-          getItem("Club 2", "stats-club-2"),
-          getItem("Club 3", "stats-club-3"),
-          getItem("All Clubs", "all-clubs"),
-        ]),
-        getItem("Quay Về", "", <BarChartOutlined />),
-      ]);
-    }
-  }, []);
-
-  const handleSubMenuOpen = (keyMenuItem) => {
-    setOpenKeys(keyMenuItem);
-  };
-  const handleSelectKey = (keyPath) => {
-    setKey(keyPath);
-  };
-
-  useEffect(() => {
-    localStorage.setItem("keys", JSON.stringify(openKeys));
-  }, [openKeys]);
-
-  useEffect(() => {
-    handleSubMenuOpen([...openKeys, key]);
-  }, [currentURI]);
 
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -254,41 +202,7 @@ const Accounts = () => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
-      >
-        <Menu
-          theme="dark"
-          defaultSelectedKeys={["profile"]}
-          mode="inline"
-          selectedKeys={currentURI}
-          openKeys={openKeys}
-          onOpenChange={handleSubMenuOpen}
-        >
-          {items.map((item) =>
-            item.children ? (
-              <Menu.SubMenu key={item.key} icon={item.icon} title={item.label}>
-                {item.children.map((subItem) => (
-                  <Menu.Item
-                    key={subItem.key}
-                    onClick={(e) => handleSelectKey(e.keyPath[1])}
-                  >
-                    <Link to={`/dashboard/${subItem.key}`}>
-                      {subItem.label}
-                    </Link>
-                  </Menu.Item>
-                ))}
-              </Menu.SubMenu>
-            ) : (
-              <Menu.Item key={item.key} icon={item.icon}>
-                <Link to={`/${item.key}`}>{item.label}</Link>
-              </Menu.Item>
-            )
-          )}
-        </Menu>
-      </Sider>
+      <Sidebar />
 
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }}>
@@ -365,6 +279,7 @@ const Accounts = () => {
                   <Select className="select-input" placeholder="Choose Role">
                     <Select.Option value="ADMIN">Admin</Select.Option>
                     <Select.Option value="STAFF">Staff</Select.Option>
+                    <Select.Option value="SHIPPER">Shipper</Select.Option>
                   </Select>
                 </Form.Item>
 

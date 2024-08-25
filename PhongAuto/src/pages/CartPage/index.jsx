@@ -110,9 +110,7 @@ export default function CartPage() {
                 Total Items:{" "}
                 {cartItems.reduce((total, item) => total + item.quantity, 0)}
               </p>
-              <p>
-                Total Price: ${calculateTotalPrice().toLocaleString() + " $"}
-              </p>
+              <p>Total Price: $ {calculateTotalPrice().toLocaleString()}</p>
               <div className="cart-button">
                 <Button
                   type="primary"
@@ -127,8 +125,9 @@ export default function CartPage() {
                   onClick={() => {
                     navigate(duongdan.checkout);
                   }}
+                  disabled={cartItems.length === 0}
                 >
-                  Go To Payment
+                  Check Out
                 </Button>
               </div>
             </Card>

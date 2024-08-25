@@ -12,6 +12,10 @@ import Accounts from "../pages/Dashboard/Accounts/Accounts";
 import CartPage from "../pages/CartPage";
 import Checkout from "../pages/Checkout";
 import OrderHistoryPage from "../pages/OrderHistoryPage";
+import TrackingPage from "../pages/TrackingPage";
+import OrderSuccess from "../pages/OrderSuccess";
+import Statistics from "../pages/Dashboard/Statistics";
+import Orders from "../pages/Dashboard/Orders";
 
 export default function AppRoute() {
   return (
@@ -47,7 +51,6 @@ export default function AppRoute() {
           }
         />
         <Route path={duongdan.cart} element={<CartPage />} />
-
         <Route
           path={duongdan.checkout}
           element={
@@ -64,14 +67,10 @@ export default function AppRoute() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path={`${duongdan.tracking}/:id`}
-          element={
-            <ProtectedRoute roles={["CUSTOMER"]}>
-              <Checkout />
-            </ProtectedRoute>
-          }
-        />
+        <Route path={`${duongdan.tracking}/:id`} element={<TrackingPage />} />
+        <Route path={duongdan.orderSuccess} element={<OrderSuccess />} />
+        <Route path="dashboard/statistics" element={<Statistics />} />
+        <Route path="dashboard/orders" element={<Orders />} />
       </Routes>
     </div>
   );

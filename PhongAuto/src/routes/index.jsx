@@ -11,4 +11,5 @@ export const duongdan = {
   checkout: "/checkout",
   tracking: "/tracking",
   orderHistory: "/order-history",
+  orderSuccess: "/order-success",
 };

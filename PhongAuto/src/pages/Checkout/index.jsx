@@ -10,6 +10,9 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { selectUser } from "../../redux/features/counterSlice";
 import { useForm } from "antd/es/form/Form";
+import { useNavigate } from "react-router-dom";
+import { duongdan } from "../../routes";
+import { order } from "../../redux/features/orderSlice";
 export default function Checkout() {
   const [form] = useForm();
   const cartItems = useSelector(selectCartItems);
@@ -18,7 +21,7 @@ export default function Checkout() {
     form.submit();
   };
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const calculateTotalPrice = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
@@ -30,23 +33,26 @@ export default function Checkout() {
     console.log("Order details:", values);
 
     try {
+      values.account = user;
       values.cartItems = cartItems;
       values.orderStatus = "PENDING";
+      values.totalPriceOrder = calculateTotalPrice();
       // values.orderDate = Date().toLocaleDateString();
-      values.username = user.username;
+
       const response = await axios.post(
         "https://66bcb31724da2de7ff6b8d0e.mockapi.io/PhongAuto-Order",
         values
       );
       console.log(response.data);
-
+      dispatch(order(response.data));
+      dispatch(clearCart());
       form.resetFields();
+      navigate(duongdan.orderSuccess);
       toast.success("Order Placed");
     } catch (error) {
       toast.error("Error Occured When Placing Order");
       console.log(error);
     }
-    // dispatch(clearCart());
   };
 
   return (
